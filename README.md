@@ -3,7 +3,7 @@ Implementação do Quicksort Externo
 =====================
 
 ==[ Data para entrega ]==
-10/12/2014
+- 10/12/2014
 
 ==[ Observações ]==
 - Tomar cuidado com o meio no qual o projeto está sendo executado. De preferência, isolar o meio. Fornecer características técnicas do ambiente no qual o projeto foi executado.

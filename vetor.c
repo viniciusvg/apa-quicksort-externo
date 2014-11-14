@@ -1,24 +1,37 @@
 #include <stdio.h>
+#include <string.h>
 #include "vetor.h"
 
 /*Imprime os elementos de um vetor.
     @v vetor a ser impresso
     @n tamanho do vetor a ser impresso
 */
-void imprime_vetor(int *v, int n)
+void imprime_vetor(int *v, int tam)
 {
     int i;
 
-    for(i = 0; i<n; i++)
+    for (i = 0; i < tam; i++)
         printf("%d ", v[i]);
+    
+    return;
 }
 
-int verifica_ordem(int *v, int n)
+int verifica_ordem(int *v, int tam)
 {
     int i;
-    for(i = 0; i<n-1; i++)
-        if(v[i] > v[i+1])
+    for (i = 0; i < tam-1; i++)
+        if (v[i] > v[i+1])
             return 0;
     
     return 1;
+}
+
+void copia_vetor(int *src, int *dst, int tam)
+{
+    int i;
+
+    for (i = 0; i < tam; i++)
+        dst[i] = src[i];
+
+    return;
 }

@@ -5,3 +5,4 @@ void imprime_vetor(int *, int);
             0 se estiver desordenado*/
 int verifica_ordem(int *, int);
 
+void copia_vetor(int *, int *, int);

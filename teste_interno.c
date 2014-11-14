@@ -2,9 +2,9 @@
 de ordenação interna*/
 
 #include <stdio.h>
+#include <stdlib.h>
 #include "vetor.h"
-
-void imprime_vetor(int *, int);
+#include "ordenacaoInterna.h"
 
 int main(void)
 {
@@ -13,6 +13,8 @@ int main(void)
 
     int vetor[10] = {2, 8, 1, 10, 3, 4, 6, 9, 5, 7};
     int cp_vetor[10];
+
+    int tam = 10;
 
     printf("\nVetor a ser ordenado: ");
     imprime_vetor(vetor, 10);
@@ -29,7 +31,13 @@ int main(void)
     {
         case 1:
             printf("todos.\n");
-            if(verifica_ordem(vetor, 10))
+            
+            copia_vetor(vetor, cp_vetor, tam);
+            
+            quicksort(cp_vetor, 0, tam-1);
+            imprime_vetor(cp_vetor, tam);
+
+            if(verifica_ordem(cp_vetor, tam))
                 puts("Estah ordenado");
             else
                 puts("Vetor nao ordenado");

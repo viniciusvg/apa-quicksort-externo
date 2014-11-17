@@ -11,13 +11,13 @@ int main(void)
     
     int escolha = 0;
 
-    int vetor[10] = {2, 8, 1, 10, 3, 4, 6, 9, 5, 7};
-    int cp_vetor[10];
+    int vetor[5] = {9, 2, 3, 4, 11};
+    int cp_vetor[5];
 
-    int tam = 10;
+    int tam = 5;
 
     printf("\nVetor a ser ordenado: ");
-    imprime_vetor(vetor, 10);
+    imprime_vetor(vetor, 5);
 
     printf("\nEscolha o algoritmo de ordenacao a ser testado:\n");
     printf("1 - Todos\n");
@@ -38,7 +38,7 @@ int main(void)
             imprime_vetor(cp_vetor, tam);
 
             if(verifica_ordem(cp_vetor, tam))
-                puts("Estah ordenado");
+                puts("Esta ordenado");
             else
                 puts("Vetor nao ordenado");
             break;

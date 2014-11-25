@@ -36,7 +36,6 @@ int main(int argc, char * argv[])
             else
                 printf("nãoordenado");
 
-            //imprime_vetor(cp_vetor, TAM);
             printf("\n");
  
             /* recupera vetor desordenado */ 
@@ -51,7 +50,6 @@ int main(int argc, char * argv[])
             else
                 printf("não ordena ");
 
-            //imprime_vetor(cp_vetor, TAM);
             printf("\n");
 
              /* recupera vetor desordenado */ 
@@ -67,8 +65,6 @@ int main(int argc, char * argv[])
             else
                 printf("não ordena ");
 
-            //imprime_vetor(cp_vetor, TAM);
-
             printf("\n");
 
             break;
@@ -82,7 +78,6 @@ int main(int argc, char * argv[])
             else
                 printf("não ordena ");
 
-            //imprime_vetor(cp_vetor, TAM);
             printf("\n");
 
             break;
@@ -95,7 +90,6 @@ int main(int argc, char * argv[])
             else
                 printf("não ordenao ");
 
-            //imprime_vetor(cp_vetor, TAM);
             printf("\n");        
 
             break;
@@ -110,8 +104,6 @@ int main(int argc, char * argv[])
             else
                 printf("não ordena ");
     
-            //imprime_vetor(cp_vetor, TAM);
-            
             printf("\n");
             
             break;

@@ -5,14 +5,13 @@ de ordenação interna*/
 #include <stdlib.h>
 #include "vetor.h"
 #include "ordenacaoInterna.h"
-#define TAM 10
+#define TAM 1000000
 
-int main(void)
-{
-    
+int main(int argc, char * argv[])
+{   
     int escolha = 0;
-
-    int vetor[TAM] = {1, 9, 2, 20, 3, 4, 5, 11, 69, 7};
+    int vetor[TAM];
+    gerar_numeros(vetor,TAM);
     int cp_vetor[TAM];
 
     printf("\nVetor a ser ordenado: ");
@@ -37,7 +36,7 @@ int main(void)
             else
                 printf("nãoordenado");
 
-            imprime_vetor(cp_vetor, TAM);
+            //imprime_vetor(cp_vetor, TAM);
             printf("\n");
  
             /* recupera vetor desordenado */ 
@@ -45,7 +44,6 @@ int main(void)
             
             /* Insertion Sort*/
             printf("Insertion sort...");
-            /* mudar interno*/ 
             insertionSort(cp_vetor, TAM);
 
             if(verifica_ordem(cp_vetor, TAM))
@@ -53,7 +51,24 @@ int main(void)
             else
                 printf("não ordena ");
 
-            imprime_vetor(cp_vetor, TAM);
+            //imprime_vetor(cp_vetor, TAM);
+            printf("\n");
+
+             /* recupera vetor desordenado */ 
+            copia_vetor(vetor, cp_vetor, TAM);
+ 
+            /* Insertion Sort (BB)*/
+            printf("Insertion sort (BB)...");
+
+            insertionSortBB(cp_vetor, TAM);
+
+            if(verifica_ordem(cp_vetor, TAM))
+                printf("ordenado ");
+            else
+                printf("não ordena ");
+
+            //imprime_vetor(cp_vetor, TAM);
+
             printf("\n");
 
             break;
@@ -67,7 +82,7 @@ int main(void)
             else
                 printf("não ordena ");
 
-            imprime_vetor(cp_vetor, TAM);
+            //imprime_vetor(cp_vetor, TAM);
             printf("\n");
 
             break;
@@ -80,22 +95,25 @@ int main(void)
             else
                 printf("não ordenao ");
 
-            imprime_vetor(cp_vetor, TAM);
+            //imprime_vetor(cp_vetor, TAM);
             printf("\n");        
 
             break;
         
         case 4:
             printf("Insertion sort (BB)...");
+            
             insertionSortBB(cp_vetor, TAM);
 
             if(verifica_ordem(cp_vetor, TAM))
                 printf("ordenado ");
             else
                 printf("não ordena ");
-
-            imprime_vetor(cp_vetor, TAM);
+    
+            //imprime_vetor(cp_vetor, TAM);
+            
             printf("\n");
+            
             break;
 
          default:

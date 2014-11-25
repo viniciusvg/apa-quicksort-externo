@@ -19,31 +19,48 @@ void insertionSort(int *v, int tam)
 
 void insertionSortBB(int *v, int tam)
 {
-    int j, chave, i, inicio, fim, meio, achou, x;
+    //imprime_vetor(v, tam);
+
+    int j, chave, i, inicio, fim, meio, flag, x, temp,index;
     for(j=1; j < tam; j++){
         chave = v[j];
         i = j - 1;
         inicio = 0;
-        fim = tam;
-        meio = (int)(inicio+fim/2); /* parte inteira */
-        while(inicio <= fim && achou == 0){
-            if(v[meio] == chave){
-                achou = 1;
-            }else{ 
-                if(chave < v[meio])
-                    fim = meio - 1;
-                else
-                    inicio = meio + 1;
-                meio = (int)(inicio+fim/2);
-            }   
+        fim = j;
+        flag = 0;
+        meio = (int)((inicio+fim)/2);
+        while(inicio < fim){
+            if(chave < v[meio]){
+                fim = meio - 1;
+                flag = 1; 
+            }else{
+                inicio = meio + 1;
+            }
+            meio = (int)((inicio+fim)/2);
         }
         x=j;
-        while((x-1) != meio)
-            v[x] = v[--x];
-        if(achou = 0)
-            v[meio] = chave;
+        //printf("\n-------------------\nmeio:%d",meio);
+        //printf("\nValores=>j:%d x:%d meio:%d inicio:%d fim:%d flag:%d chave:%d",j,x,meio,inicio,fim,flag,chave);
+       
+        if(flag == 1 && (v[meio] < chave))
+            index = meio + 1;
         else
-            v[meio+1] = chave;   
+            index = meio;
+ 
+        while(x != index){
+            //printf("\tv[x]=%d v[x-1]=%d\n",v[x],v[x-1]);
+            v[x] = v[x-1];
+            //printf("\tv[x]=%d v[x-1]=%d\n",v[x],v[x-1]);
+            x = x-1;
+        }
+        v[index] = chave;
+        
+        //printf("\n");
+        //imprime_vetor(v, tam); 
+        //if(j==8){
+        //    return;
+        //} 
+        
     }
 }
 

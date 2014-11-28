@@ -1,48 +1,56 @@
 #include <stdlib.h>
 #include <limits.h>
+#include <stdio.h>
+#include "vetor.h"
+#include "ordenacaoInterna.h"
+#define TAM_BUFFER 3
 
-void quicksort_externo(int, int);
-void particao(int, int, int*, int*);
-int lerSup(Descritor e ,int *, int *, int *);
-int lerInf(Descritor e ,int *, int *, int *);
-void escreverSup(Descritor e, int *, int );
-void escreverInf(Descritor e, int *, int );
-int extrairSup(int *, int *, int *);
-int extrairInf(int *, int *, int *);
+void quicksortExterno(int, int, FILE *, FILE *, FILE *);
+void particao(int, int, int*, int*, FILE *, FILE *, FILE *);
+void lerSup(FILE *,int *, int *, int *);
+void lerInf(FILE *,int *, int *, int *);
+void escreverSup(FILE *, int *, int );
+void escreverInf(FILE *, int *, int );
+void extrairSup(int *, int *, int *);
+void extrairInf(int *, int *, int *);
 void inserirBuffer(int *, int, int *);
 
 
-void quicksort_externo(int esq, int dir)
+void quicksortExterno(int esq, int dir, FILE *fileLEs, FILE *fileLi, FILE *fileEi)
 {
     int i, j;
 
     if (dir - esq >= 1)
     {
-        particao(esq, dir, &i, &j);
-        if (i - esq < dir - j) 
+	puts("Chamando Partição");
+        particao(esq, dir, &i, &j, fileLEs, fileLi, fileEi);
+        printf("Valor de i = %d\n", i);
+	printf("Valor de j = %d\n", j);
+
+	if (i - esq < dir - j) 
         {
-            quicksort_externo(esq, i);
-            quicksort_externo(j, dir);
+            quicksortExterno(esq, i, fileLEs, fileLi, fileEi);
+            quicksortExterno(j, dir, fileLEs, fileLi, fileEi);
         }
         else 
         {
-            quicksort_externo(j, dir);
-            quicksort_externo(esq, i);
+            quicksortExterno(j, dir, fileLEs, fileLi, fileEi);
+            quicksortExterno(esq, i, fileLEs, fileLi, fileEi);
         }
     }
     
     return;
 }
 
-void particao(int esq, int dir, int *i, int *j)
+void particao(int esq, int dir, int *i, int *j, FILE *fileLEs, FILE *fileLi, FILE *fileEi)
 {
     int lim_inf, lim_sup;
     int ei, es, li, ls;
     int ultimo_lido;  
-    int qtd_buffer;
+    int qtd_buffer = 0;
     int ler_sup;
 
-    int buffer[3];
+    int buffer[TAM_BUFFER];
 
     lim_inf = INT_MIN;
     lim_sup = INT_MAX;
@@ -54,59 +62,67 @@ void particao(int esq, int dir, int *i, int *j)
         Ls e Es <- comecma em dir
     */
 
-    li = ei = esq;
-    ls = es = dir;
+    li = esq; 
+    ei = esq;
+    ls = dir; 
+    es = dir;
 
     while (li <=ls)
     {
-        if (qtd_buffer < tam_buffer -1) 
+        if (qtd_buffer < TAM_BUFFER -1) 
         {
             if (ler_sup) 
-                lerSup(Descritor, &ls, &ultimo_lido, &ler_sup);
+                lerSup(fileLEs, &ls, &ultimo_lido, &ler_sup);
             else
-                lerInf(Descritor, &li, &ultimo_lido, &ler_sup);
+                lerInf(fileLi, &li, &ultimo_lido, &ler_sup);
 
-            inserirBuffer(buffer, ultimo_lido, &tam_buffer);
+            inserirBuffer(buffer, ultimo_lido, &qtd_buffer);
         }
         else
         { 
             if (ls == es) 
-                lerSup(Desc, &ls, &ultimo_lido, &ler_sup);
+                lerSup(fileLEs, &ls, &ultimo_lido, &ler_sup);
             else if (li == ei)
-                lerInf(Desc, &li, &ultimo_lido, &ler_sup);
+                lerInf(fileLi, &li, &ultimo_lido, &ler_sup);
             else
                 if (ler_sup)
-                    lerSup(Desc, &ls, &ultimo_lido, &ler_sup);
+                    lerSup(fileLEs, &ls, &ultimo_lido, &ler_sup);
                 else
-                    lerInf(Desc, &li, &ultimo_lido, &ler_sup);
-            
+                    lerInf(fileLi, &li, &ultimo_lido, &ler_sup);
+           
+	    printf("Valor atual de j = %d", *j);
+	    printf("Valor atual de i = %d", *i);	 
             if (ultimo_lido > lim_sup)
             {
-                j = es;
-                escreverSup(fdesc, &es, ultimo_lido);
+                *j = es;
+		printf("Valor de j alterado para %d\n", *j);
+                escreverSup(fileLEs, &es, ultimo_lido);
             }
             else if (ultimo_lido < lim_inf)
             {
-                i = ei;
-                escreverInf(fdesc, &ei, ultimo_lido);
+                *i = ei;
+		printf("Valor de i alterado para %d\n", *i);
+                escreverInf(fileEi, &ei, ultimo_lido);
             }
             else
-                inserirBuffer(buffer, ultimo_lido, &tam_buffer);
+                inserirBuffer(buffer, ultimo_lido, &qtd_buffer);
 
             // Ordenar o buffer neste ponto
-            // call ordenacao(buffer, tam_buffer)
+            quicksort(buffer, 0, qtd_buffer-1);
+            puts("\nMemória interna ordenada!!");
+            imprime_vetor(buffer, qtd_buffer);
 
             if (ei - esq < dir - es)
             { 
-                extrairInf(buffer, &ultimo_lido, &tam_buffer);
-                escreverInf(desc, &ei, ultimo_lido);
+                extrairInf(buffer, &ultimo_lido, &qtd_buffer);
+                escreverInf(fileEi, &ei, ultimo_lido);
                 lim_inf = ultimo_lido;
                 
             }
             else
             {
-                extrairSup(buffer, &ultimo_lido, &tam_buffer);
-                escreverSup(desc, &es, ultimo_lido);
+                extrairSup(buffer, &ultimo_lido, &qtd_buffer);
+                escreverSup(fileLEs, &es, ultimo_lido);
                 lim_sup = ultimo_lido;
 
             }
@@ -115,46 +131,57 @@ void particao(int esq, int dir, int *i, int *j)
     
     while (ei <= es) 
     {
-        extrairInt(buffer, &ultimo_lido, &tam_buffer);
-        escreverInf(desc, &ei, ultimo_lido);
+        extrairInf(buffer, &ultimo_lido, &qtd_buffer);
+        escreverInf(fileEi, &ei, ultimo_lido);
     }
 
 }
 
-int lerSup(FILE **fileLEs, int *ls, int *ultimo_lido, int *ler_sup) 
+void lerSup(FILE *fileLEs, int *ls, int *ultimo_lido, int *ler_sup) 
 {
-    fseek(*fileLEs,sizeof(int) * (*ls-1), SEEK_SET);
-    fread(ultimo_lido, sizeof(int), 1, *fileLEs);
+    fseek(fileLEs,sizeof(int) * (*ls-1), SEEK_SET);
+    fread(ultimo_lido, sizeof(int), 1, fileLEs);
     (*ls)--;
     *ler_sup = 0;
 }
 
-int lerInf(FILE **fileLi,int *li, int *ultimo_lido, int *ler_sup)
+void lerInf(FILE *fileLi,int *li, int *ultimo_lido, int *ler_sup)
 {
-    fread(ultimo_lido, sizeof(int), 1, *fileLi);
+    fread(ultimo_lido, sizeof(int), 1, fileLi);
     (*li)++;
     *ler_sup = 1;
 }
-void escreverSup(FILE **fileLEs, int *es, int ultimo_lido)
+void escreverSup(FILE *fileLEs, int *es, int ultimo_lido)
 {
-    fseek(*fileLEs, sizeof(int) * (*es-1), SEEK_SET);
-    fwrite(&ultimo_lido, sizeof(int), 1, *fileLEs);
+    fseek(fileLEs, sizeof(int) * (*es-1), SEEK_SET);
+    fwrite(&ultimo_lido, sizeof(int), 1, fileLEs);
     (*es)--;
 }
-void escreverInf(FILE **fileEi, int *ei, int ultimo_lido)
+void escreverInf(FILE *fileEi, int *ei, int ultimo_lido)
 {
-    fwrite(&ultimo_lido, sizeof(int), 1, *fileEi);
+    fwrite(&ultimo_lido, sizeof(int), 1, fileEi);
     (*ei)++;
 }
-int extrairSup(int *buffer, int *ultimo_lido, int *tam_buffer)
+void extrairSup(int *buffer, int *ultimo_lido, int *qtd_buffer)
 {
+    *ultimo_lido = buffer[*qtd_buffer - 1];
+    (*qtd_buffer)--;
+
 }
 
-int extrairInf(int *buffer, int *ultimo_lido, int *tam_buffer)
+void extrairInf(int *buffer, int *ultimo_lido, int *qtd_buffer)
 {
+    int i;
+
+    *ultimo_lido = buffer[0];
+    for (i = 0; i < *qtd_buffer - 1; i++)
+        buffer[i] = buffer[i+1];
+    (*qtd_buffer)--;
 }
 
-void inserirBuffer(int *buffer, int ultimo_lido, int *tam_buffer)
+void inserirBuffer(int *buffer, int ultimo_lido, int *qtd_buffer)
 {
+    buffer[*qtd_buffer] = ultimo_lido;
+    (*qtd_buffer)++;
 }
 

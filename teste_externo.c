@@ -1,6 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #define ARQUIVO "arquivo.bin"
+#define ORDENADO "ordenado.bin"
 
 void main(int argc, char *argv[])
 {
@@ -27,9 +28,13 @@ void main(int argc, char *argv[])
 
     printf("[+] arquivo:%s\n",file);
 
-    fd_LEs = posi_arquivo(ARQUIVO);
-    fd_Li = posi_arquivo(ARQUIVO);
-    fd_Ei = posi_arquivo(ARQUIVO);
+    fd_LEs = posi_arquivo(ORDENADO);
+    fd_Li = posi_arquivo(ORDENADO);
+    fd_Ei = posi_arquivo(ORDENADO);
     puts("chamando quicksort externo");
-    quicksortExterno(0, tam, fd_LEs, fd_Li, fd_Ei);
+    quicksortExterno(1, tam, &fd_LEs, &fd_Li);
+
+    fclose(fd_LEs);
+    fclose(fd_Li);
+    fclose(fd_Ei);
 }

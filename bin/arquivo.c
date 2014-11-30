@@ -18,7 +18,7 @@ void gerar_arquivo(int tam, char * arquivo){
     srand(time(NULL));
 
     for(i=0;i<tam;i++){
-        temp = rand();
+        temp = rand()%20;
         fwrite(&temp,sizeof(int), 1, fd);
     }
 

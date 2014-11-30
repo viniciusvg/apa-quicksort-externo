@@ -28,11 +28,13 @@ void main(int argc, char *argv[])
 
     printf("[+] arquivo:%s\n",file);
 
+    system("cp arquivo.bin ordenado.bin");
+
     fd_LEs = posi_arquivo(ORDENADO);
     fd_Li = posi_arquivo(ORDENADO);
     fd_Ei = posi_arquivo(ORDENADO);
     puts("chamando quicksort externo");
-    quicksortExterno(1, tam, &fd_LEs, &fd_Li);
+    quicksortExterno(1, tam, &fd_LEs, &fd_Li, 0);
 
     fclose(fd_LEs);
     fclose(fd_Li);

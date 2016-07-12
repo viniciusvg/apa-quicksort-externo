@@ -1,3 +1,4 @@
+/* Apenas um test! */
 #include "ordenacaoInterna.h"
 #include <time.h>
 #include <stdlib.h>
